@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">ARFinder</string>
+    <string name="item_title_hint">Enter a title for the item</string>
+    <string name="item_title_label">Title</string>
+    <string name="item_details_label">Details</string>
+    <string name="item_description_hint">Enter a description for the item</string>
+    <string name="data_picker_title">Date of item:</string>
+    <string name="new_item">New item</string>
+    <string name="show_subtitle">Show Subtitle</string>
+    <string name="hide_subtitle">Hide Subtitle</string>
+    <string name="subtitle_format">%1$s items</string>
+    <string name="item_delete">Delete</string>
+    <plurals name="subtitle_plural">
+        <item quantity="one">%1$s item</item>
+        <item quantity="other">%1$s items</item>
+    </plurals>
+</resources>
