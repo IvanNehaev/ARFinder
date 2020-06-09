@@ -10,6 +10,7 @@
     <string name="hide_subtitle">Hide Subtitle</string>
     <string name="subtitle_format">%1$s items</string>
     <string name="item_delete">Delete</string>
+    <string name="none_item_notice">List is empty</string>
     <plurals name="subtitle_plural">
         <item quantity="one">%1$s item</item>
         <item quantity="other">%1$s items</item>
