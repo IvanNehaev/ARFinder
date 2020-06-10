@@ -10,7 +10,11 @@ public class Item {
     private String mDescription;
 
     public Item() {
-        mId = UUID.randomUUID();
+        this(UUID.randomUUID());
+    }
+
+    public Item(UUID id) {
+        mId = id;
         mDate = new Date();
     }
 

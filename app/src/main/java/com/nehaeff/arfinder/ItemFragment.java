@@ -49,6 +49,14 @@ public class ItemFragment extends Fragment {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+
+        ItemLab.get(getActivity())
+                .updateItem(mItem);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v;
         v = inflater.inflate(R.layout.fragment_item, container, false);
