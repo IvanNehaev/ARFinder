@@ -50,6 +50,20 @@ public class ItemListFragment extends Fragment {
             mSubtitleVisible = savedInstanceState.getBoolean(SAVED_SUBTITLE_VISIBLE);
         }
 
+        mButtonAddFirstItem = (Button) view.findViewById(R.id.button_add_first);
+        mTextViewNoneItemsNotice = (TextView) view.findViewById(R.id.textView_none_item_notice);
+
+        mButtonAddFirstItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Item iItem = new Item();
+                ItemLab.get(getActivity()).addItem(iItem);
+                Intent intent = ItemPagerActivity
+                        .newIntent(getActivity(), iItem.getId());
+                startActivity(intent);
+            }
+        });
+
         updateUI();
 
         return view;
@@ -96,24 +110,23 @@ public class ItemListFragment extends Fragment {
 
     private void updateEmptyListUI(int count) {
 
-        View view = getView();
+/*        View view = getView();
 
         if (view !=null) {
             mButtonAddFirstItem = (Button) view.findViewById(R.id.button_add_first);
             mTextViewNoneItemsNotice = (TextView) view.findViewById(R.id.textView_none_item_notice);
-        }
+        }*/
 
-        if (count == 0) {
-            if ( mButtonAddFirstItem != null)
-                mButtonAddFirstItem.setVisibility(View.VISIBLE);
-            if ( mTextViewNoneItemsNotice != null)
-                mTextViewNoneItemsNotice.setVisibility(View.VISIBLE);
+        if (mButtonAddFirstItem != null && mTextViewNoneItemsNotice != null) {
 
-        } else {
-            if ( mButtonAddFirstItem != null)
-                mButtonAddFirstItem.setVisibility(View.INVISIBLE);
-            if ( mTextViewNoneItemsNotice != null)
-                mTextViewNoneItemsNotice.setVisibility(View.INVISIBLE);
+            int visibility = 0;
+            if (count == 0)
+                visibility = View.VISIBLE;
+            else
+                visibility = View.INVISIBLE;
+
+            mButtonAddFirstItem.setVisibility(visibility);
+            mTextViewNoneItemsNotice.setVisibility(visibility);
         }
     }
 
