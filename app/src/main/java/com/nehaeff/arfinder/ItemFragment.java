@@ -2,7 +2,10 @@ package com.nehaeff.arfinder;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
@@ -11,11 +14,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.nehaeff.arfinder.database.ItemDBSchema;
+
+import java.io.File;
 import java.util.Date;
 import java.util.UUID;
 
@@ -25,12 +33,16 @@ public class ItemFragment extends Fragment {
     private static final String DIALOG_DATE = "DialogDate";
 
     private static final int REQUEST_DATE = 0;
+    private static final int REQUEST_PHOTO = 2;
 
     private Item mItem;
+    private File mPhotoFile;
     private EditText mTitleField;
     private EditText mDescriptionField;
     private Button mDateButton;
     private Button mDeleteButton;
+    private ImageButton mPhotoButton;
+    private ImageView mPhotoView;
 
     public static ItemFragment newInstance(UUID itemId) {
         Bundle args = new Bundle();
@@ -46,6 +58,7 @@ public class ItemFragment extends Fragment {
         super.onCreate(savedInstanceState);
         UUID itemId = (UUID) getArguments().getSerializable(ARG_ITEM_ID);
         mItem = ItemLab.get(getActivity()).getItem(itemId);
+        mPhotoFile = ItemLab.get(getActivity()).getPhotoFile(mItem);
     }
 
     @Override
@@ -121,6 +134,28 @@ public class ItemFragment extends Fragment {
                 getActivity().finish();
             }
         });
+
+        PackageManager packageManager = getActivity().getPackageManager();
+
+        mPhotoButton = (ImageButton) v.findViewById(R.id.item_camera);
+        final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        boolean canTakePhoto = mPhotoFile != null &&
+                captureImage.resolveActivity(packageManager) != null;
+        mPhotoButton.setEnabled(canTakePhoto);
+
+        if (canTakePhoto) {
+            Uri uri = Uri.fromFile(mPhotoFile);
+            captureImage.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+        }
+
+        mPhotoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(captureImage, REQUEST_PHOTO);
+            }
+        });
+        mPhotoView = (ImageView) v.findViewById(R.id.item_photo);
 
         return v;
     }

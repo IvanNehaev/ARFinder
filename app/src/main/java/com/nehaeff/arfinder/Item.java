@@ -45,4 +45,8 @@ public class Item {
     public void setDescription(String description) {
         this.mDescription = description;
     }
+
+    public String getPhotoFilename() {
+        return "IMG_" + getId().toString() + ".jpg";
+    }
 }
