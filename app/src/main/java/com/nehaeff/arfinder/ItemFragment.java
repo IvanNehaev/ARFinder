@@ -3,8 +3,10 @@ package com.nehaeff.arfinder;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -138,7 +140,8 @@ public class ItemFragment extends Fragment {
         PackageManager packageManager = getActivity().getPackageManager();
 
         mPhotoButton = (ImageButton) v.findViewById(R.id.item_camera);
-        final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        final Intent captureImage = new Intent
+                (MediaStore.ACTION_IMAGE_CAPTURE);
 
         boolean canTakePhoto = mPhotoFile != null &&
                 captureImage.resolveActivity(packageManager) != null;
@@ -152,10 +155,14 @@ public class ItemFragment extends Fragment {
         mPhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+                StrictMode.setVmPolicy(builder.build());
+
                 startActivityForResult(captureImage, REQUEST_PHOTO);
             }
         });
         mPhotoView = (ImageView) v.findViewById(R.id.item_photo);
+        updatePhotoView();
 
         return v;
     }
@@ -171,10 +178,21 @@ public class ItemFragment extends Fragment {
                     .getSerializableExtra(DataPickerFragment.EXTRA_DATE);
             mItem.setDate(date);
             updateDate();
+        } else if (requestCode == REQUEST_PHOTO) {
+            updatePhotoView();
         }
     }
 
     private void updateDate() {
         mDateButton.setText(DateFormat.format("dd.MM.yyyy", mItem.getDate()).toString());
+    }
+
+    private void updatePhotoView() {
+        if (mPhotoFile == null || !mPhotoFile.exists()) {
+            mPhotoView.setImageDrawable(null);
+        } else {
+            Bitmap bitmap = PictureUtils.getScaledBitmap(mPhotoFile.getPath(), getActivity());
+            mPhotoView.setImageBitmap(bitmap);
+        }
     }
 }
