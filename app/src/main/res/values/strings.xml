@@ -12,6 +12,7 @@
     <string name="item_delete">Delete</string>
     <string name="none_item_notice">List is empty</string>
     <string name="none_room_notice">No rooms added</string>
+    <string name="edit_button_text">Edit</string>
     <plurals name="subtitle_plural">
         <item quantity="one">%1$s item</item>
         <item quantity="other">%1$s items</item>

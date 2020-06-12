@@ -1,5 +1,6 @@
 package com.nehaeff.arfinder;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+import java.util.UUID;
 
 public class ItemListFragment extends Fragment {
 
@@ -28,7 +30,6 @@ public class ItemListFragment extends Fragment {
     private boolean mSubtitleVisible;
     private Button mButtonAddFirstItem;
     private TextView mTextViewNoneItemsNotice;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

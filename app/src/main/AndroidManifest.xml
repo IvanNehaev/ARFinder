@@ -26,6 +26,9 @@
         <activity android:name=".ItemPagerActivity"
             android:parentActivityName=".ItemListActivity">
         </activity>
+        <activity android:name=".RoomPagerActivity"
+            android:parentActivityName=".RoomListActivity">
+        </activity>
     </application>
 
 </manifest>

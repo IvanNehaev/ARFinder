@@ -4,12 +4,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Bundle;
 import android.os.Environment;
 
 import com.nehaeff.arfinder.database.ItemBaseHelper;
 import com.nehaeff.arfinder.database.ItemCursorWrapper;
-import com.nehaeff.arfinder.database.ItemDBSchema;
 import com.nehaeff.arfinder.database.ItemDBSchema.ItemTable;
 
 import java.io.File;
@@ -20,7 +18,8 @@ import java.util.UUID;
 public class ItemLab {
     private static ItemLab sItemLab;
     private Context mContext;
-    private SQLiteDatabase mDatabase;
+    private static SQLiteDatabase mDatabase;
+    private static String tableName;
 
     public static ItemLab get(Context context) {
         if (sItemLab == null) {
@@ -31,13 +30,14 @@ public class ItemLab {
 
     private ItemLab(Context context) {
         mContext = context.getApplicationContext();
-        mDatabase = new ItemBaseHelper(mContext)
-                .getWritableDatabase();
+        //mDatabase = new ItemBaseHelper(mContext).getWritableDatabase();
+        mDatabase = RoomLab.get(context).getDatabase();
+        ItemBaseHelper.createTable(mDatabase);
     }
 
     public void addItem(Item item) {
         ContentValues values = getContentValues(item);
-        mDatabase.insert(ItemTable.NAME, null, values);
+        mDatabase.insert(tableName, null, values);
     }
 
     public List<Item> getItems() {
@@ -90,7 +90,7 @@ public class ItemLab {
         String uuidString = item.getId().toString();
         ContentValues values = getContentValues(item);
 
-        mDatabase.update(ItemTable.NAME, values,
+        mDatabase.update(tableName, values,
                 ItemTable.Cols.UUID + " = ?",
                 new String[]{ uuidString });
     }
@@ -102,7 +102,7 @@ public class ItemLab {
 
     public boolean deleteItem(Item item) {
 
-        mDatabase.delete(ItemTable.NAME, ItemTable.Cols.UUID + " = ?",
+        mDatabase.delete(tableName, ItemTable.Cols.UUID + " = ?",
                 new String[] {item.getId().toString()});
 
         return true;
@@ -110,7 +110,7 @@ public class ItemLab {
 
     public void deleteItemFromDB(Item item) {
 
-        mDatabase.delete(ItemTable.NAME, ItemTable.Cols.UUID + " = ?",
+        mDatabase.delete(tableName, ItemTable.Cols.UUID + " = ?",
                 new String[] {item.getId().toString()});
     }
 
@@ -126,7 +126,7 @@ public class ItemLab {
 
     private ItemCursorWrapper queryItems(String whereClause, String[] whereArgs) {
         Cursor cursor = mDatabase.query(
-                ItemTable.NAME,
+                tableName,
                 null,
                 whereClause,
                 whereArgs,
@@ -135,5 +135,11 @@ public class ItemLab {
                 null
         );
         return new ItemCursorWrapper(cursor);
+    }
+
+    public static void setTableName(String name) {
+        tableName = ItemTable.NAME + "_" + name.replace("-", "_");
+
+        ItemBaseHelper.createTable(mDatabase, tableName);
     }
 }

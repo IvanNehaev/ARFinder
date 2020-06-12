@@ -28,4 +28,32 @@ public class ItemBaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
+
+    public static void createTable(SQLiteDatabase db) {
+        try {
+/*            db.execSQL("create table " + ItemTable.NAME + "(" +
+                    "_id integer primary key autoincrement, " +
+                    ItemTable.Cols.UUID + ", " +
+                    ItemTable.Cols.TITLE + ", " +
+                    ItemTable.Cols.DATE + ", " +
+                    ItemTable.Cols.DETAILT + ")");*/
+        } finally {
+
+        }
+
+    }
+
+    public static void createTable(SQLiteDatabase db, String name) {
+        try {
+            db.execSQL("create table " + name + "(" +
+                    "_id integer primary key autoincrement, " +
+                    ItemTable.Cols.UUID + ", " +
+                    ItemTable.Cols.TITLE + ", " +
+                    ItemTable.Cols.DATE + ", " +
+                    ItemTable.Cols.DETAILT + ")");
+        } finally {
+
+        }
+
+    }
 }

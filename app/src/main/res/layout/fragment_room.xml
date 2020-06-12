@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="100dp">
+
+    <ImageView
+        android:id="@+id/room_photo"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:scaleType="centerInside"
+        android:layout_gravity="center"
+        android:background="@android:color/darker_gray"
+        android:cropToPadding="true"/>
+
+    <ImageButton
+        android:id="@+id/room_camera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@android:drawable/ic_menu_camera"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/item_title_label"
+        style="?android:listSeparatorTextViewStyle"
+        />
+
+    <EditText
+        android:id="@+id/editText_room_title_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/item_title_hint"
+        android:layout_marginRight="16dp"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/room_delete"
+        android:layout_gravity="center"
+        android:text="@string/item_delete"
+        />
+
+</LinearLayout>
