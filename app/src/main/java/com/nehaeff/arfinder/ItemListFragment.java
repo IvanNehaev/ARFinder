@@ -1,6 +1,5 @@
 package com.nehaeff.arfinder;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -109,13 +108,6 @@ public class ItemListFragment extends Fragment {
     }
 
     private void updateEmptyListUI(int count) {
-
-/*        View view = getView();
-
-        if (view !=null) {
-            mButtonAddFirstItem = (Button) view.findViewById(R.id.button_add_first);
-            mTextViewNoneItemsNotice = (TextView) view.findViewById(R.id.textView_none_item_notice);
-        }*/
 
         if (mButtonAddFirstItem != null && mTextViewNoneItemsNotice != null) {
 

@@ -4,28 +4,26 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.nehaeff.arfinder.database.ItemDBSchema.ItemTable;
+import com.nehaeff.arfinder.database.RoomDBSchema.RoomTable;
 
-public class ItemBaseHelper extends SQLiteOpenHelper {
+public class RoomBaseHelper extends SQLiteOpenHelper {
     private static final int VERSION = 1;
     private static final String DATABASE_NAME = "ARFinderBase.db";
 
-    public ItemBaseHelper(Context context) {
+    public RoomBaseHelper(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + ItemTable.NAME + "(" +
+        db.execSQL("create table " + RoomTable.NAME + "(" +
                 "_id integer primary key autoincrement, " +
-                ItemTable.Cols.UUID + ", " +
-                ItemTable.Cols.TITLE + ", " +
-                ItemTable.Cols.DATE + ", " +
-                ItemTable.Cols.DETAILT + ")");
+                RoomTable.Cols.UUID + ", " +
+                RoomTable.Cols.TITLE + ")");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        
     }
 }
