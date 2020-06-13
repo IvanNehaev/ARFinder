@@ -80,12 +80,6 @@ public class ItemListFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_item_list, menu);
 
-        MenuItem subtitleItem = menu.findItem(R.id.menu_item_show_subtitle);
-        if (mSubtitleVisible) {
-            subtitleItem.setTitle(R.string.hide_subtitle);
-        } else {
-            subtitleItem.setTitle(R.string.show_subtitle);
-        }
     }
 
     @Override
@@ -97,11 +91,6 @@ public class ItemListFragment extends Fragment {
                 Intent intent = ItemPagerActivity
                         .newIntent(getActivity(), iItem.getId());
                 startActivity(intent);
-                return true;
-            case R.id.menu_item_show_subtitle:
-                mSubtitleVisible = !mSubtitleVisible;
-                getActivity().invalidateOptionsMenu();
-                updateSubtitle();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -126,13 +115,9 @@ public class ItemListFragment extends Fragment {
     private void updateSubtitle() {
         ItemLab itemLab = ItemLab.get(getActivity());
         int itemCount = itemLab.getItems().size();
-        //@SuppressLint("StringFormatMatches") String subtitle = getString(R.string.subtitle_format, itemCount);
+
         String subtitle = getResources()
                 .getQuantityString(R.plurals.subtitle_plural, itemCount, itemCount);
-
-        if (!mSubtitleVisible) {
-            subtitle = null;
-        }
 
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.getSupportActionBar().setSubtitle(subtitle);

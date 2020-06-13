@@ -16,7 +16,7 @@ public class RoomBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + RoomTable.NAME + "(" +
+        db.execSQL("create table if not exists " + RoomTable.NAME + "(" +
                 "_id integer primary key autoincrement, " +
                 RoomTable.Cols.UUID + ", " +
                 RoomTable.Cols.TITLE + ")");

@@ -25,7 +25,9 @@ public class ItemListActivity extends SingleFragmentActivity {
         UUID roomId = (UUID) getIntent()
                 .getSerializableExtra(EXTRA_ROOM_ID);
 
-        ItemLab.get(this).setTableName(roomId.toString());
+        if ( roomId != null) {
+            ItemLab.get(this).setTableName(roomId.toString());
+        }
 
         return new ItemListFragment();
     }

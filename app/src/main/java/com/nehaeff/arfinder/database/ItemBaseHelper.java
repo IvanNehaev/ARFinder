@@ -45,7 +45,7 @@ public class ItemBaseHelper extends SQLiteOpenHelper {
 
     public static void createTable(SQLiteDatabase db, String name) {
         try {
-            db.execSQL("create table " + name + "(" +
+            db.execSQL("create table if not exists " + name + "(" +
                     "_id integer primary key autoincrement, " +
                     ItemTable.Cols.UUID + ", " +
                     ItemTable.Cols.TITLE + ", " +
