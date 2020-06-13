@@ -42,6 +42,7 @@ public class ItemFragment extends Fragment {
     private Button mDeleteButton;
     private ImageButton mPhotoButton;
     private ImageView mPhotoView;
+    private Button mArButton;
 
     public static ItemFragment newInstance(UUID itemId) {
         Bundle args = new Bundle();
@@ -131,6 +132,15 @@ public class ItemFragment extends Fragment {
                 ItemLab itemLab = ItemLab.get(getActivity());
                 itemLab.deleteItem(mItem);
                 getActivity().finish();
+            }
+        });
+
+        mArButton = (Button)v.findViewById(R.id.item_ar);
+        mArButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), FinderArActivity.class);
+                startActivity(intent);
             }
         });
 
