@@ -37,7 +37,7 @@ public class FinderArActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_ar_fragment);
-        arFragment = (FinderArFragment) getSupportFragmentManager().findFragmentById(R.id.sceneform_fragment);
+        arFragment = (FinderArFragment) getSupportFragmentManager().findFragmentById(R.id.ux_fragment);
         arFragment.getPlaneDiscoveryController().hide();
         arFragment.getArSceneView().getScene().addOnUpdateListener(this::onUpdateFrame);
 

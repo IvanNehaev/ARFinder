@@ -139,7 +139,7 @@ public class ItemFragment extends Fragment {
         mArButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), FinderArActivity.class);
+                Intent intent = new Intent(getContext(), AugmentedImageActivity.class);
                 startActivity(intent);
             }
         });

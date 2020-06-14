@@ -7,9 +7,7 @@
         android:maxSdkVersion="18"
         />
     <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-feature android:name="android.hardware.camera2"
-        android:required="false"
-        />
+    <uses-feature android:name="android.hardware.camera.ar" android:required="true"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -33,8 +31,21 @@
             android:parentActivityName=".RoomListActivity">
         </activity>
         <activity android:name=".FinderArActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:screenOrientation="locked"
             android:parentActivityName=".RoomPagerActivity">
         </activity>
+        <activity
+            android:name=".AugmentedImageActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:screenOrientation="locked">
+
+        </activity>
+        <meta-data android:name="com.google.ar.core" android:value="required" />
     </application>
 
 </manifest>
