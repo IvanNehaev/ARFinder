@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 
+import com.google.ar.core.Pose;
 import com.nehaeff.arfinder.database.ItemBaseHelper;
 import com.nehaeff.arfinder.database.ItemCursorWrapper;
 import com.nehaeff.arfinder.database.ItemDBSchema.ItemTable;
@@ -20,11 +21,18 @@ public class ItemLab {
     private Context mContext;
     private static SQLiteDatabase mDatabase;
     private static String tableName;
+    private Pose mPoseBase;
+    private Pose mPoseItem;
+    private UUID mSelectedItemId;
 
     public static ItemLab get(Context context) {
         if (sItemLab == null) {
             sItemLab = new ItemLab(context);
         }
+        return sItemLab;
+    }
+
+    public static ItemLab get() {
         return sItemLab;
     }
 
@@ -120,6 +128,18 @@ public class ItemLab {
         values.put(ItemTable.Cols.TITLE, item.getTitle());
         values.put(ItemTable.Cols.DATE, item.getDate().getTime());
         values.put(ItemTable.Cols.DETAILT, item.getDescription());
+        values.put(ItemTable.Cols.AR, item.getArFlag());
+
+        Pose pose = item.getPose();
+        values.put(ItemTable.Cols.TX, pose.tx());
+        values.put(ItemTable.Cols.TY, pose.ty());
+        values.put(ItemTable.Cols.TZ, pose.tz());
+
+        values.put(ItemTable.Cols.QW, pose.qw());
+        values.put(ItemTable.Cols.QX, pose.qx());
+        values.put(ItemTable.Cols.QY, pose.qy());
+        values.put(ItemTable.Cols.QZ, pose.qz());
+
 
         return values;
     }
@@ -141,5 +161,29 @@ public class ItemLab {
         tableName = ItemTable.NAME + "_" + name.replace("-", "_");
 
         ItemBaseHelper.createTable(mDatabase, tableName);
+    }
+
+    public void setPoseBase(Pose pose) {
+        mPoseBase = pose;
+    }
+
+    public Pose getPoseBase() {
+        return mPoseBase;
+    }
+
+    public Pose getPoseItem() {
+        return mPoseItem;
+    }
+
+    public void setPoseItem(Pose pose) {
+        mPoseItem = pose;
+    }
+
+    public void setSelectedItemId(UUID id) {
+        mSelectedItemId = id;
+    }
+
+    public UUID getSelectedItemId() {
+        return mSelectedItemId;
     }
 }

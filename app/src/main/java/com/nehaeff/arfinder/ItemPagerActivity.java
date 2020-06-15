@@ -17,13 +17,16 @@ import java.util.UUID;
 public class ItemPagerActivity extends AppCompatActivity {
     private static final String EXTRA_ITEM_ID =
             "com.nehaeff.arfinder.item_id";
+    private static final String EXTRA_ROOM_ID =
+            "com.nehaeff.arfinder.room_id";
 
     private ViewPager mViewPager;
     private List<Item> mItems;
 
-    public static Intent newIntent(Context packageContext, UUID itemId) {
+    public static Intent newIntent(Context packageContext, UUID itemId, UUID roomId) {
         Intent intent = new Intent(packageContext, ItemPagerActivity.class);
         intent.putExtra(EXTRA_ITEM_ID, itemId);
+        intent.putExtra(EXTRA_ROOM_ID, roomId);
         return intent;
     }
 
@@ -34,6 +37,8 @@ public class ItemPagerActivity extends AppCompatActivity {
 
         UUID itemId = (UUID) getIntent()
                         .getSerializableExtra(EXTRA_ITEM_ID);
+
+        ItemLab.get().setSelectedItemId(itemId);
 
         mViewPager = (ViewPager) findViewById(R.id.activity_item_pager_view_pager);
         mItems = ItemLab.get(this).getItems();

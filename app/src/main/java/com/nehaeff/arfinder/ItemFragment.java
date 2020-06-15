@@ -65,6 +65,8 @@ public class ItemFragment extends Fragment {
     public void onPause() {
         super.onPause();
 
+        mItem = ItemLab.get(getActivity()).getItem(mItem.getId());
+
         ItemLab.get(getActivity())
                 .updateItem(mItem);
     }

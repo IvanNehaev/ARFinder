@@ -20,11 +20,16 @@ public class RoomLab {
     private static RoomLab sRoomLab;
     private Context mContext;
     private SQLiteDatabase mDatabase;
+    private UUID mSelectedRoomId;
 
     public static RoomLab get(Context context) {
         if (sRoomLab == null) {
             sRoomLab = new RoomLab(context);
         }
+        return sRoomLab;
+    }
+
+    public static RoomLab get() {
         return sRoomLab;
     }
 
@@ -123,5 +128,13 @@ public class RoomLab {
 
     public SQLiteDatabase getDatabase() {
         return mDatabase;
+    }
+
+    public UUID getSelectedRoomId() {
+        return mSelectedRoomId;
+    }
+
+    public void setSelectedRoomId(UUID roomId) {
+        mSelectedRoomId = roomId;
     }
 }

@@ -27,6 +27,7 @@ public class ItemListActivity extends SingleFragmentActivity {
 
         if ( roomId != null) {
             ItemLab.get(this).setTableName(roomId.toString());
+            RoomLab.get(this).setSelectedRoomId(roomId);
         }
 
         return new ItemListFragment();

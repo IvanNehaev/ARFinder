@@ -21,7 +21,15 @@ public class ItemBaseHelper extends SQLiteOpenHelper {
                 ItemTable.Cols.UUID + ", " +
                 ItemTable.Cols.TITLE + ", " +
                 ItemTable.Cols.DATE + ", " +
-                ItemTable.Cols.DETAILT + ")");
+                ItemTable.Cols.DETAILT + ", " +
+                ItemTable.Cols.AR + ", " +
+                ItemTable.Cols.QW + ", " +
+                ItemTable.Cols.QX + ", " +
+                ItemTable.Cols.QY + ", " +
+                ItemTable.Cols.QZ + ", " +
+                ItemTable.Cols.TX + ", " +
+                ItemTable.Cols.TY + ", " +
+                ItemTable.Cols.TZ + ")");
     }
 
     @Override
@@ -50,7 +58,15 @@ public class ItemBaseHelper extends SQLiteOpenHelper {
                     ItemTable.Cols.UUID + ", " +
                     ItemTable.Cols.TITLE + ", " +
                     ItemTable.Cols.DATE + ", " +
-                    ItemTable.Cols.DETAILT + ")");
+                    ItemTable.Cols.DETAILT + ", " +
+                    ItemTable.Cols.AR + ", " +
+                    ItemTable.Cols.QW + ", " +
+                    ItemTable.Cols.QX + ", " +
+                    ItemTable.Cols.QY + ", " +
+                    ItemTable.Cols.QZ + ", " +
+                    ItemTable.Cols.TX + ", " +
+                    ItemTable.Cols.TY + ", " +
+                    ItemTable.Cols.TZ + ")");
         } finally {
 
         }

@@ -59,7 +59,7 @@ public class ItemListFragment extends Fragment {
                 Item iItem = new Item();
                 ItemLab.get(getActivity()).addItem(iItem);
                 Intent intent = ItemPagerActivity
-                        .newIntent(getActivity(), iItem.getId());
+                        .newIntent(getActivity(), iItem.getId(), RoomLab.get().getSelectedRoomId());
                 startActivity(intent);
             }
         });
@@ -89,7 +89,7 @@ public class ItemListFragment extends Fragment {
                 Item iItem = new Item();
                 ItemLab.get(getActivity()).addItem(iItem);
                 Intent intent = ItemPagerActivity
-                        .newIntent(getActivity(), iItem.getId());
+                        .newIntent(getActivity(), iItem.getId(), RoomLab.get().getSelectedRoomId());
                 startActivity(intent);
                 return true;
             default:
@@ -158,7 +158,7 @@ public class ItemListFragment extends Fragment {
         @Override
         public void onClick(View v) {
             itemChangePosition = super.getAdapterPosition();
-            Intent intent = ItemPagerActivity.newIntent(getActivity(), mItem.getId());
+            Intent intent = ItemPagerActivity.newIntent(getActivity(), mItem.getId(), RoomLab.get().getSelectedRoomId());
             startActivity(intent);
         }
 

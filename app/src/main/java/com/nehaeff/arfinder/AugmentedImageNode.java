@@ -19,7 +19,10 @@ package com.nehaeff.arfinder;
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
+
+import com.google.ar.core.Anchor;
 import com.google.ar.core.AugmentedImage;
+import com.google.ar.core.Pose;
 import com.google.ar.sceneform.AnchorNode;
 import com.google.ar.sceneform.Node;
 import com.google.ar.sceneform.math.Vector3;
@@ -90,7 +93,11 @@ public class AugmentedImageNode extends AnchorNode {
     }
 
     // Set the anchor based on the center of the image.
-    setAnchor(image.createAnchor(image.getCenterPose()));
+
+    Anchor anchor = image.createAnchor(image.getCenterPose());
+    ItemLab itemLab = ItemLab.get();
+    itemLab.setPoseBase(anchor.getPose());
+    setAnchor(anchor);
 
     // Make the 4 corner nodes.
     Vector3 localPosition = new Vector3();

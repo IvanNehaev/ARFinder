@@ -16,6 +16,8 @@
 
 package com.nehaeff.arfinder;
 
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -32,8 +34,11 @@ import com.google.ar.core.AugmentedImage;
 import com.google.ar.core.Frame;
 import com.google.ar.core.HitResult;
 import com.google.ar.core.Plane;
+import com.google.ar.core.Pose;
 import com.google.ar.sceneform.AnchorNode;
 import com.google.ar.sceneform.FrameTime;
+import com.google.ar.sceneform.Node;
+import com.google.ar.sceneform.math.Vector3;
 import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
@@ -41,18 +46,34 @@ import com.nehaeff.arfinder.helpers.SnackbarHelper;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class AugmentedImageActivity extends AppCompatActivity {
+
+    private static final String EXTRA_ITEM_ID =
+            "com.nehaeff.arfinder.item_id";
+    private static final String EXTRA_ROOM_ID =
+            "com.nehaeff.arfinder.room_id";
 
   private ArFragment arFragment;
   private ImageView fitToScanView;
   private Button mButton_add_anchor;
   ModelRenderable polyPostRenderable;
+  private ItemLab mItemLab;
+  private RoomLab mRoomLab;
 
   // Augmented image and its associated center pose anchor, keyed by the augmented image in
   // the database.
   private final Map<AugmentedImage, AugmentedImageNode> augmentedImageMap = new HashMap<>();
+
+    public static Intent newIntent(Context packageContext, UUID itemId, UUID roomId) {
+        Intent intent = new Intent(packageContext, AugmentedImageActivity.class);
+        intent.putExtra(EXTRA_ITEM_ID, itemId);
+        intent.putExtra(EXTRA_ROOM_ID, roomId);
+        return intent;
+    }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +98,38 @@ public class AugmentedImageActivity extends AppCompatActivity {
               toast.show();
               return null;
             });
+
+      arFragment.setOnTapArPlaneListener(
+              (HitResult hitresult, Plane plane, MotionEvent motionevent) -> {
+                  if (polyPostRenderable == null){
+                      return;
+                  }
+
+                  Anchor anchor = hitresult.createAnchor();
+                  //mItemLab.setPoseItem(anchor.getPose());
+
+                  AnchorNode anchorNode = new AnchorNode(anchor);
+                  anchorNode.setParent(arFragment.getArSceneView().getScene());
+
+                  TransformableNode lamp = new TransformableNode(arFragment.getTransformationSystem());
+                  lamp.setParent(anchorNode);
+                  lamp.setRenderable(polyPostRenderable);
+                  lamp.select();
+
+                  List<Item> items = mItemLab.getItems();
+
+                  Item item = mItemLab.getItem(mItemLab.getSelectedItemId());
+                  item.setArFlag(1);
+                  item.setPose(anchor.getPose());
+                  item.setDescription("govno");
+                  mItemLab.updateItem(item);
+
+                  items = mItemLab.getItems();
+              }
+      );
+
+      mItemLab = ItemLab.get(this);
+      mRoomLab = RoomLab.get(this);
   }
 
   @Override
@@ -122,29 +175,35 @@ public class AugmentedImageActivity extends AppCompatActivity {
             augmentedImageMap.put(augmentedImage, node);
             arFragment.getArSceneView().getScene().addChild(node);
 
-            mButton_add_anchor.setVisibility(View.VISIBLE);
+            Item item = mItemLab.getItem(mItemLab.getSelectedItemId());
+
+            if (item.getArFlag() > 0) {
+                Anchor anchor = augmentedImage.createAnchor(item.getPose());
+                AnchorNode anchorNode = new AnchorNode(anchor);
+                anchorNode.setParent(arFragment.getArSceneView().getScene());
+
+                TransformableNode lamp = new TransformableNode(arFragment.getTransformationSystem());
+                lamp.setParent(anchorNode);
+                lamp.setRenderable(polyPostRenderable);
+                lamp.select();
+            }
+
+/*            mButton_add_anchor.setVisibility(View.VISIBLE);
             mButton_add_anchor.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View v) {
 
-                arFragment.setOnTapArPlaneListener(
-                        (HitResult hitresult, Plane plane, MotionEvent motionevent) -> {
-                          if (polyPostRenderable == null){
-                            return;
-                          }
 
-                          Anchor anchor = hitresult.createAnchor();
-                          AnchorNode anchorNode = new AnchorNode(anchor);
-                          anchorNode.setParent(arFragment.getArSceneView().getScene());
+                  Anchor anchor = augmentedImage.createAnchor(mItemLab.getPoseItem());
+                  AnchorNode anchorNode = new AnchorNode(anchor);
+                  anchorNode.setParent(arFragment.getArSceneView().getScene());
 
-                          TransformableNode lamp = new TransformableNode(arFragment.getTransformationSystem());
-                          lamp.setParent(anchorNode);
-                          lamp.setRenderable(polyPostRenderable);
-                          lamp.select();
-                        }
-                );
+                  TransformableNode lamp = new TransformableNode(arFragment.getTransformationSystem());
+                  lamp.setParent(anchorNode);
+                  lamp.setRenderable(polyPostRenderable);
+                  lamp.select();
               }
-            });
+            });*/
             //FinderArNode node1 = new FinderArNode(augmentedImage, arFragment);
           }
           break;
