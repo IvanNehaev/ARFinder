@@ -87,6 +87,8 @@ public class ItemFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 mItem.setTitle(s.toString());
+                ItemLab.get(getActivity())
+                        .updateItem(mItem);
             }
 
             @Override
@@ -106,6 +108,8 @@ public class ItemFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 mItem.setDescription(s.toString());
+                ItemLab.get(getActivity())
+                        .updateItem(mItem);
             }
 
             @Override
@@ -187,6 +191,8 @@ public class ItemFragment extends Fragment {
                     .getSerializableExtra(DataPickerFragment.EXTRA_DATE);
             mItem.setDate(date);
             updateDate();
+            ItemLab.get(getActivity())
+                    .updateItem(mItem);
         } else if (requestCode == REQUEST_PHOTO) {
             updatePhotoView();
         }

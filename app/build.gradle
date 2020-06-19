@@ -52,3 +52,13 @@ sceneform.asset('sampledata/poly/poly.obj',
         'sampledata/poly/poly.sfa',
         'src/main/assets/models/poly')
 
+sceneform.asset('sampledata/magnifyingGlass/Magnifying_Glass.obj',
+        'default',
+        'sampledata/magnifyingGlass/Magnifying_Glass.sfa',
+        'src/main/assets/models/Magnifying_Glass')
+
+sceneform.asset('sampledata/small_magnyfying/smallMag.obj',
+        'default',
+        'sampledata/small_magnyfying/smallMag.sfa',
+        'src/main/assets/models/smallMag')
+

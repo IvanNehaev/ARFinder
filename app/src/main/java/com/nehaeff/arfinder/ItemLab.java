@@ -94,6 +94,7 @@ public class ItemLab {
         return new File(externalFileDir, item.getPhotoFilename());
     }
 
+
     public void updateItem(Item item) {
         String uuidString = item.getId().toString();
         ContentValues values = getContentValues(item);

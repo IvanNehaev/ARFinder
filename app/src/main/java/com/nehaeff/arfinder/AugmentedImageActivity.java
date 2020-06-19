@@ -88,7 +88,7 @@ public class AugmentedImageActivity extends AppCompatActivity {
     mButton_add_anchor = (Button) findViewById(R.id.button_ar_add_anchor);
 
     ModelRenderable.builder()
-            .setSource(this, Uri.parse("poly.sfb"))
+            .setSource(this, Uri.parse("models/smallMag.sfb"))
             .build()
             .thenAccept(renderable -> polyPostRenderable = renderable)
             .exceptionally(throwable -> {
@@ -116,15 +116,43 @@ public class AugmentedImageActivity extends AppCompatActivity {
                   lamp.setRenderable(polyPostRenderable);
                   lamp.select();
 
-                  List<Item> items = mItemLab.getItems();
-
                   Item item = mItemLab.getItem(mItemLab.getSelectedItemId());
                   item.setArFlag(1);
-                  item.setPose(anchor.getPose());
-                  item.setDescription("govno");
+                  //item.setPose(anchor.getPose());
+
+
+                    Pose basePose = ItemLab.get().getPoseBase();
+                    Pose newPose = anchor.getPose();
+                    float qx, qy, qz, qw, tx, ty, tz;
+
+                  qx = Math.abs(Math.abs(newPose.qx()) - Math.abs(basePose.qx()));
+                  qy = Math.abs(Math.abs(newPose.qy()) - Math.abs(basePose.qy()));
+                  qz = Math.abs(Math.abs(newPose.qz()) - Math.abs(basePose.qz()));
+                  qw = Math.abs(Math.abs(newPose.qw()) - Math.abs(basePose.qw()));
+
+
+                  tx = Math.abs(Math.abs(newPose.tx()) - Math.abs(basePose.tx()));
+                  ty = Math.abs(Math.abs(newPose.ty()) - Math.abs(basePose.ty()));
+                  tz = Math.abs(Math.abs(newPose.tz()) - Math.abs(basePose.tz()));
+
+                  float qVar[] = new float[4];
+                  float tVar[] = new float[3];
+
+                  tVar[0] = tx;
+                  tVar[1] = ty;
+                  tVar[2] = tz;
+
+                  qVar[0] = qx;
+                  qVar[1] = qy;
+                  qVar[2] = qz;
+                  qVar[3] = qw;
+
+                  Pose dPose = new Pose(tVar, qVar);
+                  item.setPose(dPose);
+
+
                   mItemLab.updateItem(item);
 
-                  items = mItemLab.getItems();
               }
       );
 
@@ -178,7 +206,9 @@ public class AugmentedImageActivity extends AppCompatActivity {
             Item item = mItemLab.getItem(mItemLab.getSelectedItemId());
 
             if (item.getArFlag() > 0) {
-                Anchor anchor = augmentedImage.createAnchor(item.getPose());
+
+                //Anchor anchor = augmentedImage.createAnchor(item.getPose());
+                Anchor anchor = augmentedImage.createAnchor(calculatePose());
                 AnchorNode anchorNode = new AnchorNode(anchor);
                 anchorNode.setParent(arFragment.getArSceneView().getScene());
 
@@ -213,5 +243,39 @@ public class AugmentedImageActivity extends AppCompatActivity {
           break;
       }
     }
+  }
+
+  public Pose calculatePose() {
+
+      Item item = mItemLab.getItem(mItemLab.getSelectedItemId());
+
+      Pose newPose = item.getPose();
+      Pose basePose = ItemLab.get().getPoseBase();
+
+      float qx, qy, qz, qw, tx, ty, tz;
+      qx = newPose.qx() + basePose.qx();
+      qy = newPose.qy() + basePose.qy();
+      qz = newPose.qz() + basePose.qz();
+      qw = newPose.qw() + basePose.qw();
+
+      tx = newPose.tx() + basePose.tx();
+      ty = newPose.ty() + basePose.ty();
+      tz = newPose.tz() + basePose.tz();
+
+      float qVar[] = new float[4];
+      float tVar[] = new float[3];
+
+      tVar[0] = tx;
+      tVar[1] = ty;
+      tVar[2] = tz;
+
+      qVar[0] = qx;
+      qVar[1] = qy;
+      qVar[2] = qz;
+      qVar[3] = qw;
+
+      Pose aPose = new Pose(tVar, qVar);
+
+      return aPose;
   }
 }

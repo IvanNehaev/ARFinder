@@ -1,20 +1,20 @@
 <resources>
     <string name="app_name">ARFinder</string>
-    <string name="item_title_hint">Enter a title for the item</string>
-    <string name="item_title_label">Title</string>
-    <string name="item_details_label">Details</string>
-    <string name="item_description_hint">Enter a description for the item</string>
-    <string name="data_picker_title">Date of item:</string>
-    <string name="new_item">New item</string>
+    <string name="item_title_hint">Введите заголовк для предмета</string>
+    <string name="item_title_label">Загловок</string>
+    <string name="item_details_label">Детали</string>
+    <string name="item_description_hint">Введите описание предмета</string>
+    <string name="data_picker_title">Дата создания:</string>
+    <string name="new_item">Новый предмет</string>
     <string name="show_subtitle">Show Subtitle</string>
     <string name="hide_subtitle">Hide Subtitle</string>
-    <string name="subtitle_format">%1$s items</string>
-    <string name="item_delete">Delete</string>
-    <string name="none_item_notice">List is empty</string>
-    <string name="none_room_notice">No rooms added</string>
-    <string name="edit_button_text">Edit</string>
+    <string name="subtitle_format">%1$s предметов</string>
+    <string name="item_delete">Удалить</string>
+    <string name="none_item_notice">Список пуст</string>
+    <string name="none_room_notice">Нет добавленных комнат</string>
+    <string name="edit_button_text">Изменить</string>
     <plurals name="subtitle_plural">
-        <item quantity="one">%1$s item</item>
-        <item quantity="other">%1$s items</item>
+        <item quantity="one">%1$s предмет</item>
+        <item quantity="other">%1$s предметов</item>
     </plurals>
 </resources>
