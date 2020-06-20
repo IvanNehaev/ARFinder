@@ -125,15 +125,15 @@ public class AugmentedImageActivity extends AppCompatActivity {
                     Pose newPose = anchor.getPose();
                     float qx, qy, qz, qw, tx, ty, tz;
 
-                  qx = Math.abs(Math.abs(newPose.qx()) - Math.abs(basePose.qx()));
-                  qy = Math.abs(Math.abs(newPose.qy()) - Math.abs(basePose.qy()));
-                  qz = Math.abs(Math.abs(newPose.qz()) - Math.abs(basePose.qz()));
-                  qw = Math.abs(Math.abs(newPose.qw()) - Math.abs(basePose.qw()));
+                  qx = newPose.qx() - basePose.qx();
+                  qy = newPose.qy() - basePose.qy();
+                  qz = newPose.qz() - basePose.qz();
+                  qw = newPose.qw() - basePose.qw();
 
 
-                  tx = Math.abs(Math.abs(newPose.tx()) - Math.abs(basePose.tx()));
-                  ty = Math.abs(Math.abs(newPose.ty()) - Math.abs(basePose.ty()));
-                  tz = Math.abs(Math.abs(newPose.tz()) - Math.abs(basePose.tz()));
+                  tx = newPose.tx() - basePose.tx();
+                  ty = newPose.ty() - basePose.ty();
+                  tz = newPose.tz() - basePose.tz();
 
                   float qVar[] = new float[4];
                   float tVar[] = new float[3];
