@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 
 import com.google.ar.core.Pose;
+import com.google.ar.sceneform.math.Quaternion;
+import com.google.ar.sceneform.math.Vector3;
 import com.nehaeff.arfinder.database.ItemBaseHelper;
 import com.nehaeff.arfinder.database.ItemCursorWrapper;
 import com.nehaeff.arfinder.database.ItemDBSchema.ItemTable;
@@ -24,6 +26,8 @@ public class ItemLab {
     private Pose mPoseBase;
     private Pose mPoseItem;
     private UUID mSelectedItemId;
+    private Vector3 mLocalPosition;
+    private Quaternion mLocalRotation;
 
     public static ItemLab get(Context context) {
         if (sItemLab == null) {
@@ -41,6 +45,9 @@ public class ItemLab {
         //mDatabase = new ItemBaseHelper(mContext).getWritableDatabase();
         mDatabase = RoomLab.get(context).getDatabase();
         ItemBaseHelper.createTable(mDatabase);
+
+        mLocalRotation = new Quaternion();
+        mLocalPosition = new Vector3();
     }
 
     public void addItem(Item item) {
@@ -186,5 +193,26 @@ public class ItemLab {
 
     public UUID getSelectedItemId() {
         return mSelectedItemId;
+    }
+
+    public void setLocalPosition(Vector3 position) {
+        mLocalPosition.z = position.z;
+        mLocalPosition.y = position.y;
+        mLocalPosition.x = position.x;
+    }
+
+    public void setLocalRotation(Quaternion rotation) {
+        mLocalRotation.w = rotation.w;
+        mLocalRotation.z = rotation.z;
+        mLocalRotation.x = rotation.x;
+        mLocalRotation.y = rotation.y;
+    }
+
+    public Vector3 getLocalPosition() {
+        return mLocalPosition;
+    }
+
+    public Quaternion getLocalRotation() {
+        return mLocalRotation;
     }
 }

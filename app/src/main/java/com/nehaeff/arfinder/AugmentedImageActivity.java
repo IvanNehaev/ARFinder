@@ -38,6 +38,7 @@ import com.google.ar.core.Pose;
 import com.google.ar.sceneform.AnchorNode;
 import com.google.ar.sceneform.FrameTime;
 import com.google.ar.sceneform.Node;
+import com.google.ar.sceneform.math.Quaternion;
 import com.google.ar.sceneform.math.Vector3;
 import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
@@ -63,6 +64,7 @@ public class AugmentedImageActivity extends AppCompatActivity {
   ModelRenderable polyPostRenderable;
   private ItemLab mItemLab;
   private RoomLab mRoomLab;
+  private AugmentedImageNode mAugmentedImageNode;
 
   // Augmented image and its associated center pose anchor, keyed by the augmented image in
   // the database.
@@ -105,8 +107,8 @@ public class AugmentedImageActivity extends AppCompatActivity {
                       return;
                   }
 
-                  Anchor anchor = hitresult.createAnchor();
-                  //mItemLab.setPoseItem(anchor.getPose());
+
+/*                  Anchor anchor = hitresult.createAnchor();
 
                   AnchorNode anchorNode = new AnchorNode(anchor);
                   anchorNode.setParent(arFragment.getArSceneView().getScene());
@@ -117,11 +119,42 @@ public class AugmentedImageActivity extends AppCompatActivity {
                   lamp.select();
 
                   Item item = mItemLab.getItem(mItemLab.getSelectedItemId());
+                  item.setArFlag(1);*/
+
+                  ////TEST////
+                  Item item = mItemLab.getItem(mItemLab.getSelectedItemId());
                   item.setArFlag(1);
-                  //item.setPose(anchor.getPose());
+
+                  Vector3 localPosition = new Vector3();
+
+                  Node node = new Node();
+                  node.setParent(mAugmentedImageNode);
+
+                  Pose pose = hitresult.getHitPose();
+
+                  localPosition.x = pose.tx();
+                  localPosition.y = pose.ty();
+                  localPosition.z = pose.tz();
+
+                  node.setWorldPosition(localPosition);
+                  Quaternion quaternion = new Quaternion();
+                  quaternion.x = pose.qx();
+                  quaternion.y = pose.qy();
+                  quaternion.z = pose.qz();
+                  quaternion.w = pose.qw();
+                  node.setWorldRotation(quaternion);
+
+                  node.setRenderable(polyPostRenderable);
+                  node.setLocalScale(new Vector3(0.3f, 0.3f, 0.3f));
+
+                  mItemLab.setLocalPosition(node.getLocalPosition());
+                  mItemLab.setLocalRotation(node.getLocalRotation());
+
+                  mItemLab.updateItem(item);
+                  ////////////
 
 
-                    Pose basePose = ItemLab.get().getPoseBase();
+/*                    Pose basePose = ItemLab.get().getPoseBase();
                     Pose newPose = anchor.getPose();
                     float qx, qy, qz, qw, tx, ty, tz;
 
@@ -151,7 +184,7 @@ public class AugmentedImageActivity extends AppCompatActivity {
                   item.setPose(dPose);
 
 
-                  mItemLab.updateItem(item);
+                  mItemLab.updateItem(item);*/
 
               }
       );
@@ -203,19 +236,38 @@ public class AugmentedImageActivity extends AppCompatActivity {
             augmentedImageMap.put(augmentedImage, node);
             arFragment.getArSceneView().getScene().addChild(node);
 
+            mAugmentedImageNode  = node;
+
             Item item = mItemLab.getItem(mItemLab.getSelectedItemId());
 
             if (item.getArFlag() > 0) {
 
-                //Anchor anchor = augmentedImage.createAnchor(item.getPose());
-                Anchor anchor = augmentedImage.createAnchor(calculatePose());
+                /////TEST///
+                Node itemNode = new Node();
+                itemNode.setParent(mAugmentedImageNode);
+                itemNode.setLocalScale(new Vector3(0.3f, 0.3f, 0.3f));
+                itemNode.setLocalPosition(mItemLab.getLocalPosition());
+                //itemNode.setLocalRotation(mItemLab.getLocalRotation());
+                itemNode.setRenderable(polyPostRenderable);
+
+
+                Node itemNodeTrue = new Node();
+                itemNodeTrue.setParent(arFragment.getArSceneView().getScene());
+                itemNodeTrue.setLocalScale(new Vector3(0.3f, 0.3f, 0.3f));
+                itemNodeTrue.setWorldPosition(itemNode.getWorldPosition());
+                itemNode.setLocalRotation(mItemLab.getLocalRotation());
+                itemNodeTrue.setRenderable(polyPostRenderable);
+
+                ///////////
+/*                Anchor anchor = augmentedImage.createAnchor(calculatePose());
                 AnchorNode anchorNode = new AnchorNode(anchor);
                 anchorNode.setParent(arFragment.getArSceneView().getScene());
 
                 TransformableNode lamp = new TransformableNode(arFragment.getTransformationSystem());
                 lamp.setParent(anchorNode);
                 lamp.setRenderable(polyPostRenderable);
-                lamp.select();
+                lamp.select();*/
+
             }
 
 /*            mButton_add_anchor.setVisibility(View.VISIBLE);

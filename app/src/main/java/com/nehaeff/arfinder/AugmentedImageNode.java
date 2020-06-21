@@ -93,10 +93,16 @@ public class AugmentedImageNode extends AnchorNode {
     }
 
     // Set the anchor based on the center of the image.
+    Item item = ItemLab.get().getItem(ItemLab.get().getSelectedItemId());
+    Anchor anchor;
 
-    Anchor anchor = image.createAnchor(image.getCenterPose());
+    anchor = image.createAnchor(image.getCenterPose());
     ItemLab itemLab = ItemLab.get();
     itemLab.setPoseBase(anchor.getPose());
+
+
+
+
     setAnchor(anchor);
 
     // Make the 4 corner nodes.
