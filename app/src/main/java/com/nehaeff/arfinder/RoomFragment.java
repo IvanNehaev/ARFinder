@@ -20,6 +20,8 @@ import android.widget.ImageView;
 
 import androidx.fragment.app.Fragment;
 
+import com.nehaeff.arfinder.helpers.CameraPermissionHelper;
+
 import java.io.File;
 import java.util.UUID;
 
@@ -113,6 +115,11 @@ public class RoomFragment extends Fragment {
             public void onClick(View v) {
                 StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
                 StrictMode.setVmPolicy(builder.build());
+
+                if (!CameraPermissionHelper.hasCameraPermission(getActivity())) {
+                    CameraPermissionHelper.requestCameraPermission(getActivity());
+                    return;
+                }
 
                 startActivityForResult(captureImage, REQUEST_PHOTO);
             }

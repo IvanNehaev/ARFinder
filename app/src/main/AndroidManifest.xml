@@ -25,10 +25,12 @@
 
         </activity>
         <activity android:name=".ItemPagerActivity"
-            android:parentActivityName=".ItemListActivity">
+            android:parentActivityName=".ItemListActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity android:name=".RoomPagerActivity"
-            android:parentActivityName=".RoomListActivity">
+            android:parentActivityName=".RoomListActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity android:name=".FinderArActivity"
             android:configChanges="orientation|screenSize"

@@ -103,12 +103,14 @@ public class ItemLab {
 
 
     public void updateItem(Item item) {
-        String uuidString = item.getId().toString();
-        ContentValues values = getContentValues(item);
+        if (item != null) {
+            String uuidString = item.getId().toString();
+            ContentValues values = getContentValues(item);
 
-        mDatabase.update(tableName, values,
-                ItemTable.Cols.UUID + " = ?",
-                new String[]{ uuidString });
+            mDatabase.update(tableName, values,
+                    ItemTable.Cols.UUID + " = ?",
+                    new String[]{ uuidString });
+        }
     }
 
     public boolean deleteItem(UUID id) {

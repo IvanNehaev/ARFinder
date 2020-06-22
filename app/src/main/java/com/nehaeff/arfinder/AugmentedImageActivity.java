@@ -150,6 +150,21 @@ public class AugmentedImageActivity extends AppCompatActivity {
                   mItemLab.setLocalPosition(node.getLocalPosition());
                   mItemLab.setLocalRotation(node.getLocalRotation());
 
+                  float qVar[] = new float[4];
+                  float tVar[] = new float[3];
+
+                  tVar[0] = node.getLocalPosition().x;
+                  tVar[1] = node.getLocalPosition().y;
+                  tVar[2] = node.getLocalPosition().z;
+
+                  qVar[0] = node.getLocalRotation().x;
+                  qVar[1] = node.getLocalRotation().y;
+                  qVar[2] = node.getLocalRotation().z;
+                  qVar[3] = node.getLocalRotation().w;
+
+                  Pose savedPose = new Pose(tVar, qVar);
+                  item.setPose(savedPose);
+
                   mItemLab.updateItem(item);
                   ////////////
 
@@ -243,19 +258,27 @@ public class AugmentedImageActivity extends AppCompatActivity {
             if (item.getArFlag() > 0) {
 
                 /////TEST///
+
+                Pose pose = item.getPose();
+
                 Node itemNode = new Node();
                 itemNode.setParent(mAugmentedImageNode);
-                itemNode.setLocalScale(new Vector3(0.3f, 0.3f, 0.3f));
-                itemNode.setLocalPosition(mItemLab.getLocalPosition());
+                itemNode.setLocalScale(new Vector3(0.1f, 0.1f, 0.1f));
+                itemNode.setLocalPosition(new Vector3(pose.tx(), pose.ty(),pose.tz()));
+                itemNode.setLocalRotation(new Quaternion(pose.qx(), pose.qy(), pose.qz(), pose.qw()));
+                //itemNode.setLocalPosition(mItemLab.getLocalPosition());
                 //itemNode.setLocalRotation(mItemLab.getLocalRotation());
-                itemNode.setRenderable(polyPostRenderable);
+                //itemNode.setRenderable(polyPostRenderable);
+
 
 
                 Node itemNodeTrue = new Node();
                 itemNodeTrue.setParent(arFragment.getArSceneView().getScene());
                 itemNodeTrue.setLocalScale(new Vector3(0.3f, 0.3f, 0.3f));
                 itemNodeTrue.setWorldPosition(itemNode.getWorldPosition());
-                itemNode.setLocalRotation(mItemLab.getLocalRotation());
+
+                itemNodeTrue.setLocalRotation(itemNode.getWorldRotation());
+
                 itemNodeTrue.setRenderable(polyPostRenderable);
 
                 ///////////

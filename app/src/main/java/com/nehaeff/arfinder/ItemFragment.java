@@ -22,6 +22,8 @@ import android.widget.ImageView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.nehaeff.arfinder.helpers.CameraPermissionHelper;
+
 import java.io.File;
 import java.util.Date;
 import java.util.UUID;
@@ -142,13 +144,16 @@ public class ItemFragment extends Fragment {
         });
 
         mArButton = (Button)v.findViewById(R.id.item_ar);
-        mArButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), AugmentedImageActivity.class);
-                startActivity(intent);
-            }
-        });
+        if (mArButton != null) {
+            mArButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getContext(), AugmentedImageActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
+
 
         PackageManager packageManager = getActivity().getPackageManager();
 
@@ -170,6 +175,11 @@ public class ItemFragment extends Fragment {
             public void onClick(View v) {
                 StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
                 StrictMode.setVmPolicy(builder.build());
+
+                if (!CameraPermissionHelper.hasCameraPermission(getActivity())) {
+                    CameraPermissionHelper.requestCameraPermission(getActivity());
+                    return;
+                }
 
                 startActivityForResult(captureImage, REQUEST_PHOTO);
             }
