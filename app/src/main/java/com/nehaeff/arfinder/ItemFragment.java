@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -217,7 +218,26 @@ public class ItemFragment extends Fragment {
             mPhotoView.setImageDrawable(null);
         } else {
             Bitmap bitmap = PictureUtils.getScaledBitmap(mPhotoFile.getPath(), getActivity());
-            mPhotoView.setImageBitmap(bitmap);
+            mPhotoView.setImageBitmap(rotate(bitmap, 90));
         }
+    }
+
+    private Bitmap rotate(Bitmap b, int degrees) {
+        if (degrees != 0 && b != null) {
+            Matrix m = new Matrix();
+
+            m.setRotate(degrees, (float) b.getWidth() / 2, (float) b.getHeight() / 2);
+            try {
+                Bitmap b2 = Bitmap.createBitmap(
+                        b, 0, 0, b.getWidth(), b.getHeight(), m, true);
+                if (b != b2) {
+                    b.recycle();
+                    b = b2;
+                }
+            } catch (OutOfMemoryError ex) {
+                throw ex;
+            }
+        }
+        return b;
     }
 }
